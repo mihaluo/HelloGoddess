@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "AutoMapper": "5.1.1",
+    "HelloGoddess.Infrastructure": "1.0.0-*",
+    "mongocsharpdriver": "2.3.0",
+    "NETStandard.Library": "1.6.0",
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.0.1"
+    },
+    "HelloGoddess.Common": "1.0.0-*"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": "dnxcore50"
+    }
+  }
+}

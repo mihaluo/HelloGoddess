@@ -1,0 +1,110 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{40D459D6-80C2-4526-BC84-36A018054E3B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F44FC10A-CFD3-4F8D-A2B2-1ABBECF379A8}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "HelloGoddess", "src\HelloGoddess\HelloGoddess.xproj", "{A9F99C25-A022-4C5B-AA0D-3D958B194200}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Web", "src\Web\Web.xproj", "{22F64367-3B0E-41C3-A4ED-589453D3DBAD}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "HelloGoddess.Core", "src\HelloGoddess.Core\HelloGoddess.Core.xproj", "{67E97F54-8B3A-4435-B05E-DAC57B410916}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "HelloGoddess.Infrastructure", "src\HelloGoddess.Infrastructure\HelloGoddess.Infrastructure.xproj", "{B98329E9-184A-4340-A466-4415A080A9EE}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "HelloGoddess.Common", "src\HelloGoddess.Common\HelloGoddess.Common.xproj", "{7D87DE19-852A-4AA5-A73D-21D9B8367EB1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{43CE35CA-6642-49E5-ADEB-D86D81DBCEF3}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "HelloGoddess.Core.Test", "HelloGoddess.Core.Test\HelloGoddess.Core.Test.xproj", "{019849E0-0A86-43A3-B57A-C992A62CF59E}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "HelloGoddess.Crawlar", "src\HelloGoddess.Crawlar\HelloGoddess.Crawlar.xproj", "{1CC98FFA-DB35-48A0-843B-987CED5BD15E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9F99C25-A022-4C5B-AA0D-3D958B194200}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9F99C25-A022-4C5B-AA0D-3D958B194200}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9F99C25-A022-4C5B-AA0D-3D958B194200}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9F99C25-A022-4C5B-AA0D-3D958B194200}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22F64367-3B0E-41C3-A4ED-589453D3DBAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22F64367-3B0E-41C3-A4ED-589453D3DBAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22F64367-3B0E-41C3-A4ED-589453D3DBAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22F64367-3B0E-41C3-A4ED-589453D3DBAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67E97F54-8B3A-4435-B05E-DAC57B410916}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67E97F54-8B3A-4435-B05E-DAC57B410916}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67E97F54-8B3A-4435-B05E-DAC57B410916}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67E97F54-8B3A-4435-B05E-DAC57B410916}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B98329E9-184A-4340-A466-4415A080A9EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B98329E9-184A-4340-A466-4415A080A9EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B98329E9-184A-4340-A466-4415A080A9EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B98329E9-184A-4340-A466-4415A080A9EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D87DE19-852A-4AA5-A73D-21D9B8367EB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D87DE19-852A-4AA5-A73D-21D9B8367EB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D87DE19-852A-4AA5-A73D-21D9B8367EB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D87DE19-852A-4AA5-A73D-21D9B8367EB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{019849E0-0A86-43A3-B57A-C992A62CF59E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{019849E0-0A86-43A3-B57A-C992A62CF59E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{019849E0-0A86-43A3-B57A-C992A62CF59E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{019849E0-0A86-43A3-B57A-C992A62CF59E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CC98FFA-DB35-48A0-843B-987CED5BD15E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CC98FFA-DB35-48A0-843B-987CED5BD15E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CC98FFA-DB35-48A0-843B-987CED5BD15E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CC98FFA-DB35-48A0-843B-987CED5BD15E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A9F99C25-A022-4C5B-AA0D-3D958B194200} = {40D459D6-80C2-4526-BC84-36A018054E3B}
+		{22F64367-3B0E-41C3-A4ED-589453D3DBAD} = {40D459D6-80C2-4526-BC84-36A018054E3B}
+		{67E97F54-8B3A-4435-B05E-DAC57B410916} = {40D459D6-80C2-4526-BC84-36A018054E3B}
+		{B98329E9-184A-4340-A466-4415A080A9EE} = {40D459D6-80C2-4526-BC84-36A018054E3B}
+		{7D87DE19-852A-4AA5-A73D-21D9B8367EB1} = {40D459D6-80C2-4526-BC84-36A018054E3B}
+		{019849E0-0A86-43A3-B57A-C992A62CF59E} = {43CE35CA-6642-49E5-ADEB-D86D81DBCEF3}
+		{1CC98FFA-DB35-48A0-843B-987CED5BD15E} = {40D459D6-80C2-4526-BC84-36A018054E3B}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 8
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://yanwei.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = src\\HelloGoddess\\HelloGoddess.xproj
+		SccProjectTopLevelParentUniqueName1 = HelloGoddess.sln
+		SccProjectName1 = src/HelloGoddess
+		SccLocalPath1 = src\\HelloGoddess
+		SccProjectUniqueName2 = src\\Web\\Web.xproj
+		SccProjectTopLevelParentUniqueName2 = HelloGoddess.sln
+		SccProjectName2 = src/Web
+		SccLocalPath2 = src\\Web
+		SccProjectUniqueName3 = src\\HelloGoddess.Core\\HelloGoddess.Core.xproj
+		SccProjectTopLevelParentUniqueName3 = HelloGoddess.sln
+		SccProjectName3 = src/HelloGoddess.Core
+		SccLocalPath3 = src\\HelloGoddess.Core
+		SccProjectUniqueName4 = src\\HelloGoddess.Infrastructure\\HelloGoddess.Infrastructure.xproj
+		SccProjectTopLevelParentUniqueName4 = HelloGoddess.sln
+		SccProjectName4 = src/HelloGoddess.Infrastructure
+		SccLocalPath4 = src\\HelloGoddess.Infrastructure
+		SccProjectUniqueName5 = src\\HelloGoddess.Common\\HelloGoddess.Common.xproj
+		SccProjectTopLevelParentUniqueName5 = HelloGoddess.sln
+		SccProjectName5 = src/HelloGoddess.Common
+		SccLocalPath5 = src\\HelloGoddess.Common
+		SccProjectUniqueName6 = HelloGoddess.Core.Test\\HelloGoddess.Core.Test.xproj
+		SccProjectTopLevelParentUniqueName6 = HelloGoddess.sln
+		SccProjectName6 = HelloGoddess.Core.Test
+		SccLocalPath6 = HelloGoddess.Core.Test
+		SccProjectUniqueName7 = src\\HelloGoddess.Crawlar\\HelloGoddess.Crawlar.xproj
+		SccProjectTopLevelParentUniqueName7 = HelloGoddess.sln
+		SccProjectName7 = src/HelloGoddess.Crawlar
+		SccLocalPath7 = src\\HelloGoddess.Crawlar
+	EndGlobalSection
+EndGlobal
