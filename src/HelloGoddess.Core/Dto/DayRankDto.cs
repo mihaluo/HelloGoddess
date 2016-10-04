@@ -2,12 +2,18 @@
 
 namespace HelloGoddess.Core.Dto
 {
-    public class DayRankDto
+    public class DayRankDto : IntKeyDto
+
     {
         /// <summary>
         /// 女神ID
         /// </summary>
         public int GooddessId { get; set; }
+
+        /// <summary>
+        /// RoomId
+        /// </summary>
+        public string RoomId { get; set; }
 
         /// <summary>
         /// 女神名称
@@ -19,6 +25,10 @@ namespace HelloGoddess.Core.Dto
         /// </summary>
         public long GoddessValue { get; set; }
 
-        public DateTime DateTime { get; set; }
+        /// <summary>
+        ///  时间
+        /// </summary>
+        public long TimeStamp { get; set; }
+
     }
 }

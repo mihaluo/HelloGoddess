@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HelloGoddess.Common.Util;
 using HelloGoddess.Crawlar.Core;
 using HelloGoddess.Crawlar.Model;
+using System.Threading;
 
 namespace HelloGoddess.Crawlar
 {
@@ -12,24 +13,32 @@ namespace HelloGoddess.Crawlar
     {
         public static void Main(string[] args)
         {
+            //long roomId = args.Length >= 1 ? long.Parse(args[0]) : 353622;//485118;// 666666;//
 
-            PandaRoom pandaRoom = new PandaRoom();
-            long roomId = args.Length >= 1 ? long.Parse(args[0]) : 487558;//485118;// 666666;//
-
-            do
+            foreach (string roomId in PandaConstant.GoddessRoomIdList)
             {
-                try
+                PandaRoom pandaRoom = new PandaRoom();
+                do
                 {
-                    pandaRoom.Connect(roomId);
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-            } while (true);
+                    try
+                    {
+                        Console.WriteLine("connecting");
+                        pandaRoom.Connect(roomId);
+                        //pandaRoom.Connect("485118");
+                        Console.WriteLine("connection done");
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
+                    Thread.Sleep(200);
+                } while (true);
 
-            pandaRoom.Execute();
+                pandaRoom.Execute();
+            }
+
+
             Console.ReadKey();
         }
     }

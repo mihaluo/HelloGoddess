@@ -1,6 +1,7 @@
 using System.Linq;
 using HelloGoddess.Infrastructure.Domain.Entities;
 using HelloGoddess.Infrastructure.Domain.Repositories;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace HelloGoddess.Core.MongoDb.Repositories
@@ -9,8 +10,8 @@ namespace HelloGoddess.Core.MongoDb.Repositories
     /// Implements IRepository for MongoDB.
     /// </summary>
     /// <typeparam name="TEntity">Type of the Entity for this repository</typeparam>
-    public class MongoDbRepositoryBase<TEntity> : MongoDbRepositoryBase<TEntity, int>, IRepository<TEntity>
-        where TEntity : class, IEntity<int>
+    public class MongoDbRepositoryBase<TEntity> : MongoDbRepositoryBase<TEntity, ObjectId>, IRepository<TEntity>
+        where TEntity : class, IEntity<ObjectId>
     {
         public MongoDbRepositoryBase(IMongoDatabaseProvider databaseProvider)
             : base(databaseProvider)
@@ -73,7 +74,9 @@ namespace HelloGoddess.Core.MongoDb.Repositories
         }
         public override TEntity Update(TEntity entity)
         {
-            //Collection.UpdateOne(entity1 => entity1.Id == entity.Id, entity);
+            var filter = Builders<TEntity>.Filter.Eq(e => e.Id, entity.Id);
+            var updateDefinition = UpdateDefiinitionGenerate<TEntity>.Gen(entity);
+            Collection.UpdateOne(filter, updateDefinition);
             return entity;
         }
 

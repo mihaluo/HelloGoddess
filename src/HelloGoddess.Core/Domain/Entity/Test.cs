@@ -1,6 +1,8 @@
-﻿namespace HelloGoddess.Core.Domain.Entity
+﻿using MongoDB.Bson;
+
+namespace HelloGoddess.Core.Domain.Entity
 {
-    public class Test : Infrastructure.Domain.Entities.Entity
+    public class Test : Infrastructure.Domain.Entities.Entity<ObjectId>
     {
         public string Name { get; set; }
 

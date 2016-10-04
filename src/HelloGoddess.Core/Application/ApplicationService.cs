@@ -7,22 +7,27 @@ namespace HelloGoddess.Core.Application
 {
     public abstract class ApplicationService
     {
-        private IMongoDatabaseProvider _mongoDatabaseProvider;
-        protected IMongoDatabaseProvider MongoDatabaseProvider
+        private static IMongoDatabaseProvider _mongoDatabaseProvider;
+        protected static IMongoDatabaseProvider MongoDatabaseProvider
         {
             get
             {
                 if (_mongoDatabaseProvider != null) return _mongoDatabaseProvider;
 
+
                 ICurrentUnitOfWorkProvider currentUnitOfWorkProvider = new CallContextCurrentUnitOfWorkProvider();
-                IMongoDbModuleConfiguration mongoDbModuleConfiguration = new MongoDbModuleConfiguration
+                if (currentUnitOfWorkProvider.Current == null)
                 {
-                    ConnectionString = "mongodb://10.211.55.2:27017",
-                    DatatabaseName = "HelloGoddess"
-                };
-                var mongoDbUnitOfWork = new MongoDbUnitOfWork(mongoDbModuleConfiguration);
-                currentUnitOfWorkProvider.Current = mongoDbUnitOfWork;
-                mongoDbUnitOfWork.BeginUow();
+                    IMongoDbModuleConfiguration mongoDbModuleConfiguration = new MongoDbModuleConfiguration
+                    {
+                        ConnectionString = "mongodb://10.211.55.2:27017",
+                        DatatabaseName = "HelloGoddess"
+                    };
+                    var mongoDbUnitOfWork = new MongoDbUnitOfWork(mongoDbModuleConfiguration);
+                    currentUnitOfWorkProvider.Current = mongoDbUnitOfWork;
+                    mongoDbUnitOfWork.BeginUow();
+
+                }
                 _mongoDatabaseProvider = new UnitOfWorkMongoDatabaseProvider(currentUnitOfWorkProvider);
 
                 return _mongoDatabaseProvider;

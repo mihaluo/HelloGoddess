@@ -1,21 +1,35 @@
-﻿using HelloGoddess.Common.Util;
+﻿using System;
+using HelloGoddess.Common.Util;
 using HelloGoddess.Core.Domain.Entity;
 using HelloGoddess.Core.Dto;
+using HelloGoddess.Core.MongoDb;
 using HelloGoddess.Core.MongoDb.Repositories;
-using HelloGoddess.Infrastructure.Domain.Repositories;
+using MongoDB.Bson;
 
 namespace HelloGoddess.Core.Application
 {
     public class DayRankApplicationService : ApplicationService
     {
 
-        public bool AddOrUpdate(DayRankDto dayRankDto)
+        IRepository<DayRank> repository = new MongoDbRepositoryBase<DayRank>(MongoDatabaseProvider);
+
+        public void AddOrUpdate(DayRankDto dayRankDto)
         {
-            IRepository<DayRank> repository = new MongoDbRepositoryBase<DayRank>(base.MongoDatabaseProvider);
             DayRank dayRank = dayRankDto.Map<DayRank>();
-            DayRank insert = repository.Insert(dayRank);
-            //repository.Insert()
-            return true;
+            if (dayRank.Id == ObjectId.Empty)
+            {
+                dayRank.Id = ObjectId.GenerateNewId(DateTime.Now);
+                DayRank insert = repository.Insert(dayRank);
+                return;
+            }
+            repository.Update(dayRank);
         }
+
+        public DayRankDto GetDayRankDtoByRoomIdAndDate(string roomId, long timeStamp)
+        {
+            DayRank dayRank = repository.FirstOrDefault(rank => rank.RoomId == roomId && rank.TimeStamp == timeStamp);
+            return dayRank == null ? null : dayRank.Map<DayRankDto>();
+        }
+
     }
 }
