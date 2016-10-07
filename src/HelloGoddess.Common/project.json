@@ -8,7 +8,8 @@
       "type": "platform",
       "version": "1.0.1"
     },
-    "AutoMapper": "5.1.1"
+    "AutoMapper": "5.1.1",
+    "StackExchange.Redis": "1.1.606"
   },
 
   "frameworks": {

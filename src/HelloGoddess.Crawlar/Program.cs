@@ -15,17 +15,17 @@ namespace HelloGoddess.Crawlar
         {
             //long roomId = args.Length >= 1 ? long.Parse(args[0]) : 353622;//485118;// 666666;//
 
-            foreach (string roomId in PandaConstant.GoddessRoomIdList)
+            //foreach (string roomId in PandaConstant.GoddessRoomIdList)
             {
                 PandaRoom pandaRoom = new PandaRoom();
                 do
                 {
                     try
                     {
-                        Console.WriteLine("connecting");
+                        string roomId = PandaConstant.XXLRoomId;
+                        Console.WriteLine("connecting:{0}", roomId);
                         pandaRoom.Connect(roomId);
-                        //pandaRoom.Connect("485118");
-                        Console.WriteLine("connection done");
+                        Console.WriteLine("connection done,{0}", roomId);
                         break;
                     }
                     catch (Exception ex)

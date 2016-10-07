@@ -4,7 +4,9 @@ namespace HelloGoddess.Crawlar.Core
 {
     public class PandaConstant
     {
-        public const string RoomInfoApi = "http://riven.panda.tv/chatroom/getinfo?roomid={0}";
+        public const string RoomSockerInfoApi = "http://riven.panda.tv/chatroom/getinfo?roomid={0}";
+
+        public const string RoomInfoApi = "http://api.m.panda.tv/ajax_search?roomid={0}";
 
         /*房间号 */
         /// <summary>
@@ -50,7 +52,12 @@ namespace HelloGoddess.Crawlar.Core
         /// <summary>
         /// 李元一 
         /// </summary>
-        public const string LYYRoomId = "473695"; 
+        public const string LYYRoomId = "473695";
+
+        /// <summary>
+        ///主直播间 
+        /// </summary>
+        public const string MainRoom = "485118";
 
         public static readonly List<string> GoddessRoomIdList = new List<string>
         {

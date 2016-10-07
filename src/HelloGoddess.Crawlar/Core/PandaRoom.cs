@@ -25,12 +25,12 @@ namespace HelloGoddess.Crawlar.Core
         private static readonly byte[] TwoZeroBytes = { 0x00, 0x00 };
         private static readonly Random Random = new Random();
 
-        private RoomInfo RoomInfo { get; set; }
+        private RoomSockerInfo RoomInfo { get; set; }
 
         public void Connect(string roomId)
         {
-            var roomInfoApiUrl = string.Format(PandaConstant.RoomInfoApi, roomId);
-            var roomInfo = HttpHelper.DoGet<RoomInfo>(roomInfoApiUrl);
+            var roomInfoApiUrl = string.Format(PandaConstant.RoomSockerInfoApi, roomId);
+            var roomInfo = HttpHelper.DoGet<RoomSockerInfo>(roomInfoApiUrl);
             if ((roomInfo == null) || (roomInfo.errno != 0))
                 throw new Exception("get roominfo error");
             RoomInfo = roomInfo;
@@ -166,15 +166,26 @@ namespace HelloGoddess.Crawlar.Core
                     recvMsg = recvMsg.JoinBytes(msgBytes);
                 }
                 var flag = ProcessMsg(recvMsg);
-                totalLength = totalLength - IgonreLength - MetaLen - recvLen;
                 if (!flag)
                 {
-                    //出错，跳过本次消息处理
-                    var receiveWithBuffer = socket.ReceiveWithBuffer(totalLength - recvMsg.Length + 1);
-                    var processMsgResult = ProcessMsg(recvMsg.JoinBytes(receiveWithBuffer));
-                    Console.WriteLine("Result:{0},{1}", processMsgResult, Encoding.UTF8.GetString(receiveWithBuffer));
+                    while (true)
+                    {
+                        try
+                        {
+                            var receiveWithBuffer = socket.ReceiveWithBuffer(totalLength - recvMsg.Length + 1);
+                            var processMsgResult = ProcessMsg(recvMsg.JoinBytes(receiveWithBuffer));
+                            Console.WriteLine("Result:{0},{1}", processMsgResult, Encoding.UTF8.GetString(receiveWithBuffer));
+                            break;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+                        Thread.Sleep(1000);
+                    }
                     break;
                 }
+                totalLength = totalLength - IgonreLength - MetaLen - recvLen;
             }
         }
 
@@ -188,26 +199,18 @@ namespace HelloGoddess.Crawlar.Core
                 switch (pandaMessage.type)
                 {
                     case PandaMessageType.Audience:
-                        //var audience = json.ToObj<Audience>();
-                        //Console.WriteLine($"---观看人数{audience.content}---");
+                        var audience = json.ToObj<Audience>();
+                        ProcessAudience(audience);
+
                         break;
                     case PandaMessageType.Bamboo:
                         //var bamboo = json.ToObj<Bamboo>();
                         //Console.WriteLine($"{bamboo.from.nickName}送给主播：{bamboo.content}竹子");
                         break;
                     case PandaMessageType.Gift:
+
                         var gift = json.ToObj<Gift>();
-                        var price = gift.content.price * gift.content.count;
-                        Console.WriteLine(
-                            $"{gift.from.nickName}送给主播{gift.to.toroom}：{gift.content.name} {price}，连击：{gift.content.combo}");
-                        var giftprocessers = ObjectCreator.Create<IGiftProcesser>();
-                        foreach (var giftProcesser in giftprocessers)
-                        {
-                            Task.Factory.StartNew(() =>
-                            {
-                                giftProcesser.Process(gift);
-                            });
-                        }
+                        ProcessGift(gift);
 
                         break;
                     case PandaMessageType.Nomal:
@@ -223,6 +226,47 @@ namespace HelloGoddess.Crawlar.Core
                 return false;
             }
             return true;
+        }
+
+        private static void ProcessAudience(Audience audience)
+        {
+            var roomInfo = HttpHelper.DoGet<RoomInfo>(string.Format(PandaConstant.RoomInfoApi, audience.to.toroom));
+            if (roomInfo.data.items.Length <= 0)
+            {
+                return;
+            }
+
+            var item = roomInfo.data.items[0];
+            if (item.status == "2")
+            {
+                Console.WriteLine($"---观看人数{audience.content}---");
+                var audienceProcessers = ObjectCreator.Create<IAudienceProcesser>();
+                foreach (var audienceProcesser in audienceProcessers)
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        audienceProcesser.Process(audience);
+                    });
+                }
+
+            }
+        }
+
+        public static void ProcessGift(Gift gift)
+        {
+            var price = gift.content.price * gift.content.count;
+            string roomId = Dict.GoddessNameDict.ContainsKey(gift.to.toroom) ? gift.to.toroom : Dict.MainRoomGoddessRoomIdMap[gift.content.name];
+            string goddessName = Dict.GoddessNameDict[roomId];
+            Console.WriteLine(
+                $"{gift.from.nickName}送给主播{goddessName}：{gift.content.name} {price}，连击：{gift.content.combo}");
+            var giftprocessers = ObjectCreator.Create<IGiftProcesser>();
+            foreach (var giftProcesser in giftprocessers)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    giftProcesser.Process(gift);
+                });
+            }
         }
     }
 }

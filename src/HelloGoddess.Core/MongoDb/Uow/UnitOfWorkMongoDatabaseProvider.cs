@@ -9,7 +9,7 @@ namespace HelloGoddess.Core.MongoDb.Uow
     /// </summary>
     public class UnitOfWorkMongoDatabaseProvider : IMongoDatabaseProvider, ITransientDependency
     {
-        public IMongoDatabase Database => ((MongoDbUnitOfWork)_currentUnitOfWork.Current).Database;
+        public IMongoDatabase Database => ((MongoDbUnitOfWork)_currentUnitOfWork.Current)?.Database;
 
         private readonly ICurrentUnitOfWorkProvider _currentUnitOfWork;
 

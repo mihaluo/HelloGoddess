@@ -12,8 +12,7 @@ namespace HelloGoddess.Core.Application
         {
             get
             {
-                if (_mongoDatabaseProvider != null) return _mongoDatabaseProvider;
-
+                if (_mongoDatabaseProvider != null && _mongoDatabaseProvider.Database != null) return _mongoDatabaseProvider;
 
                 ICurrentUnitOfWorkProvider currentUnitOfWorkProvider = new CallContextCurrentUnitOfWorkProvider();
                 if (currentUnitOfWorkProvider.Current == null)

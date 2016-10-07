@@ -19,7 +19,7 @@ namespace HelloGoddess.Core.Domain.Entity
         /// <summary>
         /// 女神房间号
         /// </summary>
-        public string RansName { get; set; }
+        public string FansName { get; set; }
 
         /// <summary>
         /// 献女神值
@@ -30,10 +30,19 @@ namespace HelloGoddess.Core.Domain.Entity
         /// 女神房间号
         /// </summary>
         public string GoddessRoomId { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string GoddessName { get; set; }
 
         /// <summary>
         ///  时间
         /// </summary>
         public long TimeStamp { get; set; }
+
+        /// <summary>
+        ///  时间
+        /// </summary>
+        public long LastTimeStamp { get; set; }
     }
 }

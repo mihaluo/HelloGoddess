@@ -11,7 +11,12 @@ namespace HelloGoddess.Core.Application
     public class DayRankApplicationService : ApplicationService
     {
 
-        IRepository<DayRank> repository = new MongoDbRepositoryBase<DayRank>(MongoDatabaseProvider);
+        IRepository<DayRank> repository = null;
+
+        public DayRankApplicationService()
+        {
+            repository = new MongoDbRepositoryBase<DayRank>(MongoDatabaseProvider);
+        }
 
         public void AddOrUpdate(DayRankDto dayRankDto)
         {
@@ -23,12 +28,15 @@ namespace HelloGoddess.Core.Application
                 return;
             }
             repository.Update(dayRank);
+
         }
 
         public DayRankDto GetDayRankDtoByRoomIdAndDate(string roomId, long timeStamp)
         {
+
             DayRank dayRank = repository.FirstOrDefault(rank => rank.RoomId == roomId && rank.TimeStamp == timeStamp);
             return dayRank == null ? null : dayRank.Map<DayRankDto>();
+
         }
 
     }

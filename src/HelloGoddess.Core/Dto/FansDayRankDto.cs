@@ -17,7 +17,7 @@ namespace HelloGoddess.Core.Dto
         /// <summary>
         /// 
         /// </summary>
-        public string RansName { get; set; }
+        public string FansName { get; set; }
 
         /// <summary>
         /// 献女神值
@@ -38,5 +38,7 @@ namespace HelloGoddess.Core.Dto
         ///  时间
         /// </summary>
         public long TimeStamp { get; set; }
+
+       
     }
 }
