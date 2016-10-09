@@ -6,6 +6,9 @@ using HelloGoddess.Common.Util;
 using HelloGoddess.Crawlar.Core;
 using HelloGoddess.Crawlar.Model;
 using System.Threading;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using StackExchange.Redis;
 
 namespace HelloGoddess.Crawlar
 {
@@ -13,7 +16,22 @@ namespace HelloGoddess.Crawlar
     {
         public static void Main(string[] args)
         {
-            //long roomId = args.Length >= 1 ? long.Parse(args[0]) : 353622;//485118;// 666666;//
+            if (args.Length <= 0)
+            {
+                Console.WriteLine("未传入参数");
+                return;
+            }
+
+            string roomId = args[0];
+            if (!PandaConstant.GoddessRoomIdList.Contains(roomId))
+            {
+                Console.WriteLine("非女神房间号");
+                return;
+            }
+
+            Console.WriteLine("redis ip :{0},mongo ip :{1}", IpHelper.GetIp("redis"), IpHelper.GetIp("db"));
+
+            CheckConnection();
 
             //foreach (string roomId in PandaConstant.GoddessRoomIdList)
             {
@@ -22,7 +40,7 @@ namespace HelloGoddess.Crawlar
                 {
                     try
                     {
-                        string roomId = PandaConstant.XXLRoomId;
+                        //string roomId = PandaConstant.XXLRoomId;
                         Console.WriteLine("connecting:{0}", roomId);
                         pandaRoom.Connect(roomId);
                         Console.WriteLine("connection done,{0}", roomId);
@@ -38,8 +56,33 @@ namespace HelloGoddess.Crawlar
                 pandaRoom.Execute();
             }
 
+            while (true)
+            {
+                var input = Console.ReadLine();
+                if (input == "q")
+                {
+                    break;
+                }
+            }
 
-            Console.ReadKey();
+        }
+
+        public static void CheckConnection()
+        {
+            Console.WriteLine("start check connection");
+            //var redisConnectionString = "redis,connectTimeout=500,SyncTimeout=5000";
+            var redisConnectionString = $"{IpHelper.GetIp("redis")}:6379,connectTimeout=500,SyncTimeout=5000";
+            var connection = ConnectionMultiplexer.Connect(redisConnectionString);
+            var database = connection.GetDatabase();
+            var result = database.StringSet("test", Guid.NewGuid().ToString());
+
+            string connectionString = $"mongodb://{IpHelper.GetIp("db")}:27017";
+            MongoClient mongoClient = new MongoClient(connectionString);
+            var mongoDatabase = mongoClient.GetDatabase("foo");
+            var collection = mongoDatabase.GetCollection<BsonDocument>("bar");
+            collection.InsertOne(new BsonDocument("test", Guid.NewGuid()));
+            Console.WriteLine("end check connection");
+
         }
     }
 

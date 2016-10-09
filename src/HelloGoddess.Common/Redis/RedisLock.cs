@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using HelloGoddess.Common.Util;
 using StackExchange.Redis;
 
 namespace HelloGoddess.Common.Redis
@@ -15,7 +16,7 @@ namespace HelloGoddess.Common.Redis
             {
                 if (_connectionMultiplexers == null)
                 {
-                    var redisConnectionString = "10.211.55.2:6379,connectTimeout=5000,SyncTimeout=5000";
+                    var redisConnectionString = $"{IpHelper.GetIp("redis")}:6379,connectTimeout=500,SyncTimeout=5000";
                     _connectionMultiplexers = new List<ConnectionMultiplexer> { ConnectionMultiplexer.Connect(redisConnectionString) };
                 }
                 return _connectionMultiplexers;
@@ -30,7 +31,9 @@ namespace HelloGoddess.Common.Redis
         /// <param name="actionExecuted">主处理Action执行完成后执行的Action</param>
         public static void SingleLock(string lockId, Action action, Action actionExecuted)
         {
-            if(action == null)
+            //Console.WriteLine("start exe lock");
+
+            if (action == null)
             {
                 throw new ArgumentNullException(nameof(action));
             }
@@ -49,15 +52,12 @@ namespace HelloGoddess.Common.Redis
             {
                 throw new RedisLockException("处理超时");
             }
-            if(actionExecuted != null)
-            {
-                actionExecuted();
-
-            }
+            actionExecuted?.Invoke();
 
             //释放锁
             dlm.Unlock(lockObject);
 
+            //Console.WriteLine("end exe lock");
 
         }
 
@@ -88,10 +88,7 @@ namespace HelloGoddess.Common.Redis
                 throw new RedisLockException("处理超时");
             }
 
-            if (actionExecuted != null)
-            {
-                actionExecuted();
-            }
+            actionExecuted?.Invoke();
 
             //释放锁
             foreach (var @lock in locks)

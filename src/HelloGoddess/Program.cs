@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
@@ -43,6 +44,12 @@ namespace HelloGoddess
 
         public static void Main(string[] args)
         {
+            var dns = Dns.GetHostAddressesAsync("www.baidu.com").Result;
+            foreach (var ipAddress in dns)
+            {
+                var ip = ipAddress.ToString();
+                Console.WriteLine(ip);
+            }
             var bytes2 = Encoding.UTF8.GetBytes("]");
             //{ "errno":"0","errmsg":"","data":{ "rid":"-40494344","roomid":"485118","ts":"1475055608598","sign":"e851d00f67af95feb4b114ce5de6bc88"},"authseq":""}
             HttpClient httpClient = new HttpClient(new MyHttpClienHanlder());
@@ -247,7 +254,7 @@ namespace HelloGoddess
         public string[] chat_addr_list { get; set; }
     }
 
-    
+
 
 
     public class MyHttpClienHanlder : HttpClientHandler

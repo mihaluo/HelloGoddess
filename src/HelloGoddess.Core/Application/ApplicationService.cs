@@ -1,4 +1,5 @@
-﻿using HelloGoddess.Core.MongoDb;
+﻿using HelloGoddess.Common.Util;
+using HelloGoddess.Core.MongoDb;
 using HelloGoddess.Core.MongoDb.Configuration;
 using HelloGoddess.Core.MongoDb.Uow;
 using HelloGoddess.Infrastructure.Domain.Uow;
@@ -7,7 +8,9 @@ namespace HelloGoddess.Core.Application
 {
     public abstract class ApplicationService
     {
+
         private static IMongoDatabaseProvider _mongoDatabaseProvider;
+        private static readonly string ConnectionString = $"mongodb://{IpHelper.GetIp("db")}:27017";
         protected static IMongoDatabaseProvider MongoDatabaseProvider
         {
             get
@@ -19,7 +22,7 @@ namespace HelloGoddess.Core.Application
                 {
                     IMongoDbModuleConfiguration mongoDbModuleConfiguration = new MongoDbModuleConfiguration
                     {
-                        ConnectionString = "mongodb://10.211.55.2:27017",
+                        ConnectionString = ConnectionString,
                         DatatabaseName = "HelloGoddess"
                     };
                     var mongoDbUnitOfWork = new MongoDbUnitOfWork(mongoDbModuleConfiguration);
