@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HelloGoddess.Core.Domain.Entity
 {
-    public class AudienceRankDto : IntKeyDto
+    public class AudienceRankDto : ObjectIdDto
     {
         /// <summary>
         /// 女神ID

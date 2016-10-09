@@ -16,24 +16,24 @@ namespace HelloGoddess.Crawlar
     {
         public static void Main(string[] args)
         {
-            if (args.Length <= 0)
-            {
-                Console.WriteLine("未传入参数");
-                return;
-            }
+            //if (args.Length <= 0)
+            //{
+            //    Console.WriteLine("未传入参数");
+            //    return;
+            //}
 
-            string roomId = args[0];
-            if (!PandaConstant.GoddessRoomIdList.Contains(roomId))
-            {
-                Console.WriteLine("非女神房间号");
-                return;
-            }
+            //string roomId = args[0];
+            //if (!PandaConstant.GoddessRoomIdList.Contains(roomId))
+            //{
+            //    Console.WriteLine("非女神房间号");
+            //    return;
+            //}
 
             Console.WriteLine("redis ip :{0},mongo ip :{1}", IpHelper.GetIp("redis"), IpHelper.GetIp("db"));
 
             CheckConnection();
 
-            //foreach (string roomId in PandaConstant.GoddessRoomIdList)
+            foreach (string roomId in PandaConstant.GoddessRoomIdList)
             {
                 PandaRoom pandaRoom = new PandaRoom();
                 do

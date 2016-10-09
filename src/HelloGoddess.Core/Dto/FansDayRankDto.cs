@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HelloGoddess.Core.Dto
 {
-    public class FansDayRankDto : IntKeyDto
+    public class FansDayRankDto : ObjectIdDto
     {
 
         /// <summary>

@@ -7,7 +7,7 @@ namespace HelloGoddess.Core.Dto
         public TPrimaryKey Id { get; set; }
     }
 
-    public abstract class IntKeyDto : BaseDto<ObjectId>
+    public abstract class ObjectIdDto : BaseDto<ObjectId>
     {
 
     }

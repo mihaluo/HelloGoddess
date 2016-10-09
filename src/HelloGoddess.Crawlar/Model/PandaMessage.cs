@@ -5,7 +5,6 @@
     {
         public PandaMessageType type { get; set; }
         public int time { get; set; }
-        public object data { get; set; }
     }
 
     public enum PandaMessageType

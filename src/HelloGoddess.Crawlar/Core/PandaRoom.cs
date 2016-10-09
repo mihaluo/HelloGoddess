@@ -194,8 +194,17 @@ namespace HelloGoddess.Crawlar.Core
             var msg = Encoding.UTF8.GetString(msgBytes);
             try
             {
+                var pandaMsgEndIndex = msg.IndexOf(",\"data\"");
+                var pandaMsgJson = msg.Substring(0, pandaMsgEndIndex) + "}";
                 var pandaMessage = msg.ToObj<PandaMessage>();
-                var json = pandaMessage.data.ToJson();
+                if (pandaMessage.type != PandaMessageType.Audience && pandaMessage.type != PandaMessageType.Gift)
+                {
+                    return true;
+                }
+                
+                int indexStart = msg.IndexOf('{', 1);
+                int indexEnd = msg.Length - 1;
+                var json = msg.Substring(indexStart, msg.Length - 1 - indexStart);
                 switch (pandaMessage.type)
                 {
                     case PandaMessageType.Audience:
@@ -243,10 +252,11 @@ namespace HelloGoddess.Crawlar.Core
                 var audienceProcessers = ObjectCreator.Create<IAudienceProcesser>();
                 foreach (var audienceProcesser in audienceProcessers)
                 {
-                    Task.Factory.StartNew(() =>
+                    //Task.Factory.StartNew(() =>
                     {
                         audienceProcesser.Process(audience);
-                    });
+                    }
+                    //);
                 }
 
             }
@@ -262,10 +272,11 @@ namespace HelloGoddess.Crawlar.Core
             var giftprocessers = ObjectCreator.Create<IGiftProcesser>();
             foreach (var giftProcesser in giftprocessers)
             {
-                Task.Factory.StartNew(() =>
+                //Task.Factory.StartNew(() =>
                 {
                     giftProcesser.Process(gift);
-                });
+                }
+                //);
             }
         }
     }
