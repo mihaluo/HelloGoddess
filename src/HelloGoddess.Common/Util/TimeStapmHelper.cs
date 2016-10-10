@@ -12,6 +12,11 @@ namespace HelloGoddess.Common.Util
             var now = DateTimeOffset.Now;
             var datetimeNowSeconds = now.ToUnixTimeSeconds();
             var seconds = now.Hour * 60 * 60 + now.Minute * 60 + now.Second + now.Millisecond / 1000;
+            if (now.Hour >= 6)
+            {
+                return datetimeNowSeconds - seconds - 8 * 60 * 60; // 
+            }
+
             return datetimeNowSeconds - seconds + 57600;//centos docker下时间少16个小时
         }
 

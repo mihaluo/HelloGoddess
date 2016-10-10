@@ -194,8 +194,6 @@ namespace HelloGoddess.Crawlar.Core
             var msg = Encoding.UTF8.GetString(msgBytes);
             try
             {
-                var pandaMsgEndIndex = msg.IndexOf(",\"data\"");
-                var pandaMsgJson = msg.Substring(0, pandaMsgEndIndex) + "}";
                 var pandaMessage = msg.ToObj<PandaMessage>();
                 if (pandaMessage.type != PandaMessageType.Audience && pandaMessage.type != PandaMessageType.Gift)
                 {
@@ -203,7 +201,6 @@ namespace HelloGoddess.Crawlar.Core
                 }
                 
                 int indexStart = msg.IndexOf('{', 1);
-                int indexEnd = msg.Length - 1;
                 var json = msg.Substring(indexStart, msg.Length - 1 - indexStart);
                 switch (pandaMessage.type)
                 {
