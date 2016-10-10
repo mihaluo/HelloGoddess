@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using HelloGoddess.Common.Util;
@@ -16,6 +17,11 @@ namespace HelloGoddess.Crawlar
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine(TimeStampHelper.GetTodayTimeStampSeconds());
+            Console.WriteLine(DateTime.Now.ToString(CultureInfo.InvariantCulture));
+            Console.WriteLine(DateTimeOffset.Now.ToString());
+            Console.WriteLine(DateTime.Now.ToLocalTime().Hour);
+            Console.WriteLine(DateTime.Now.Hour);
             //if (args.Length <= 0)
             //{
             //    Console.WriteLine("未传入参数");
