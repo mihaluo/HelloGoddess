@@ -199,7 +199,7 @@ namespace HelloGoddess.Crawlar.Core
                 {
                     return true;
                 }
-                
+
                 int indexStart = msg.IndexOf('{', 1);
                 var json = msg.Substring(indexStart, msg.Length - 1 - indexStart);
                 switch (pandaMessage.type)
@@ -236,6 +236,10 @@ namespace HelloGoddess.Crawlar.Core
 
         private static void ProcessAudience(Audience audience)
         {
+            if (audience.to.toroom == PandaConstant.MainRoom)
+            {
+                return;
+            }
             var roomInfo = HttpHelper.DoGet<RoomInfo>(string.Format(PandaConstant.RoomInfoApi, audience.to.toroom));
             if (roomInfo.data.items.Length <= 0)
             {
