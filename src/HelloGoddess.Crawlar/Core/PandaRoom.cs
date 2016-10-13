@@ -172,9 +172,12 @@ namespace HelloGoddess.Crawlar.Core
                     {
                         try
                         {
-                            var receiveWithBuffer = socket.ReceiveWithBuffer(totalLength - recvMsg.Length + 1);
-                            var processMsgResult = ProcessMsg(recvMsg.JoinBytes(receiveWithBuffer));
-                            Console.WriteLine("Result:{0},{1}", processMsgResult, Encoding.UTF8.GetString(receiveWithBuffer));
+                            int len = totalLength - recvMsg.Length + 1;
+                            len = totalLength == 272 ? len - 17 : len;
+                            var receiveWithBuffer = socket.ReceiveWithBuffer(len);
+                            var joinRecv = recvMsg.JoinBytes(receiveWithBuffer);
+                            var processMsgResult = ProcessMsg(joinRecv);
+                            Console.WriteLine("Result:{0},{1}", processMsgResult, Encoding.UTF8.GetString(joinRecv));
                             break;
                         }
                         catch (Exception ex)
@@ -210,8 +213,8 @@ namespace HelloGoddess.Crawlar.Core
 
                         break;
                     case PandaMessageType.Bamboo:
-                        //var bamboo = json.ToObj<Bamboo>();
-                        //Console.WriteLine($"{bamboo.from.nickName}送给主播：{bamboo.content}竹子");
+                        var bamboo = json.ToObj<Bamboo>();
+                        Console.WriteLine($"{bamboo.from.nickName}送给主播：{bamboo.content}竹子");
                         break;
                     case PandaMessageType.Gift:
 
@@ -220,8 +223,8 @@ namespace HelloGoddess.Crawlar.Core
 
                         break;
                     case PandaMessageType.Nomal:
-                        //var nomal = json.ToObj<Nomal>();
-                        //Console.WriteLine($"{nomal.from.nickName}：{nomal.content}");
+                        var nomal = json.ToObj<Nomal>();
+                        Console.WriteLine($"{nomal.from.nickName}：{nomal.content}");
                         break;
                 }
             }
