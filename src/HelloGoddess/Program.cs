@@ -41,9 +41,11 @@ namespace HelloGoddess
             public string sign { get; set; }
         }
 
+        private static long value;
 
         public static void Main(string[] args)
         {
+            Console.WriteLine(value);
             var dns = Dns.GetHostAddressesAsync("www.baidu.com").Result;
             foreach (var ipAddress in dns)
             {

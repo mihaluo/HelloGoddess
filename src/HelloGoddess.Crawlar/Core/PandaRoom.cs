@@ -253,11 +253,11 @@ namespace HelloGoddess.Crawlar.Core
                 var audienceProcessers = ObjectCreator.Create<IAudienceProcesser>();
                 foreach (var audienceProcesser in audienceProcessers)
                 {
-                    //Task.Factory.StartNew(() =>
+                    Task.Factory.StartNew(() =>
                     {
                         audienceProcesser.Process(audience);
                     }
-                    //);
+                    );
                 }
 
             }
@@ -273,11 +273,11 @@ namespace HelloGoddess.Crawlar.Core
             var giftprocessers = ObjectCreator.Create<IGiftProcesser>();
             foreach (var giftProcesser in giftprocessers)
             {
-                //Task.Factory.StartNew(() =>
+                Task.Factory.StartNew(() =>
                 {
                     giftProcesser.Process(gift);
                 }
-                //);
+                );
             }
         }
     }
