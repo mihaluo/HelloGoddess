@@ -39,14 +39,14 @@ namespace HelloGoddess.Crawlar
 
             CheckConnection();
 
-            //foreach (string roomId in PandaConstant.GoddessRoomIdList)
+            foreach (string roomId in PandaConstant.GoddessRoomIdList)
             {
                 PandaRoom pandaRoom = new PandaRoom();
                 do
                 {
                     try
                     {
-                        string roomId = PandaConstant.CWJRoomId;
+                        //string roomId = PandaConstant.XXLRoomId;
                         Console.WriteLine("connecting:{0}", roomId);
                         pandaRoom.Connect(roomId);
                         Console.WriteLine("connection done,{0}", roomId);

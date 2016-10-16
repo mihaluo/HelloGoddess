@@ -59,10 +59,16 @@ namespace HelloGoddess.Crawlar.Core
         /// </summary>
         public const string MainRoom = "485118";
 
+        /// <summary>
+        /// 出道盛典房间
+        /// </summary>
+        public const string ShengDianRoomId = "553687";
+
         public static readonly List<string> GoddessRoomIdList = new List<string>
         {
             //主直播间
-            "485118",
+            MainRoom,
+            ShengDianRoomId,
             "353622",
             "471687",
             "472021",

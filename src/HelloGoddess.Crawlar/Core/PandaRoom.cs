@@ -198,7 +198,7 @@ namespace HelloGoddess.Crawlar.Core
             try
             {
                 var pandaMessage = msg.ToObj<PandaMessage>();
-                if (pandaMessage.type != PandaMessageType.Audience && pandaMessage.type != PandaMessageType.Gift)
+                if (pandaMessage.type == PandaMessageType.Bamboo)
                 {
                     return true;
                 }
@@ -213,8 +213,8 @@ namespace HelloGoddess.Crawlar.Core
 
                         break;
                     case PandaMessageType.Bamboo:
-                        var bamboo = json.ToObj<Bamboo>();
-                        Console.WriteLine($"{bamboo.from.nickName}送给主播：{bamboo.content}竹子");
+                        //var bamboo = json.ToObj<Bamboo>();
+                        //Console.WriteLine($"{bamboo.from.nickName}送给主播：{bamboo.content}竹子");
                         break;
                     case PandaMessageType.Gift:
 
@@ -224,7 +224,7 @@ namespace HelloGoddess.Crawlar.Core
                         break;
                     case PandaMessageType.Nomal:
                         var nomal = json.ToObj<Nomal>();
-                        Console.WriteLine($"{nomal.from.nickName}：{nomal.content}");
+                        ProcessNomal(nomal);
                         break;
                 }
             }
@@ -235,6 +235,20 @@ namespace HelloGoddess.Crawlar.Core
                 return false;
             }
             return true;
+        }
+
+        private static void ProcessNomal(Nomal nomal)
+        {
+            var nomalProcessers = ObjectCreator.Create<INomalProcesser>();
+            foreach (var nomalProcesser in nomalProcessers)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    nomalProcesser.Process(nomal);
+                }
+                );
+            }
+            //Console.WriteLine($"{nomal.from.nickName}：{nomal.content}");
         }
 
         private static void ProcessAudience(Audience audience)
@@ -271,8 +285,7 @@ namespace HelloGoddess.Crawlar.Core
             var price = gift.content.price * gift.content.count;
             string roomId = Dict.GoddessNameDict.ContainsKey(gift.to.toroom) ? gift.to.toroom : Dict.MainRoomGoddessRoomIdMap[gift.content.name];
             string goddessName = Dict.GoddessNameDict[roomId];
-            Console.WriteLine(
-                $"{gift.from.nickName}送给主播{goddessName}：{gift.content.name} {price}，连击：{gift.content.combo}");
+            Console.WriteLine($"{gift.from.nickName}送给主播{goddessName}：{gift.content.name} {price}，连击：{gift.content.combo}");
             var giftprocessers = ObjectCreator.Create<IGiftProcesser>();
             foreach (var giftProcesser in giftprocessers)
             {

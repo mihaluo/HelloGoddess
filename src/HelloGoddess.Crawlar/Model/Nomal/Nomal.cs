@@ -10,7 +10,7 @@
     public class From
     {
         public string __plat { get; set; }
-        public string identity { get; set; }
+        public int identity { get; set; }
         public string level { get; set; }
         public string msgcolor { get; set; }
         public string nickName { get; set; }

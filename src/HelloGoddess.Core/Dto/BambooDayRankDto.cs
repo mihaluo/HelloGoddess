@@ -1,15 +1,16 @@
-﻿
+﻿using HelloGoddess.Core.Dto;
 using HelloGoddess.Infrastructure.Domain.Entities;
 using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HelloGoddess.Core.Dto
+namespace HelloGoddess.Core.Domain.Entity
 {
-    public class BBKingDayRankDto : ObjectIdDto
+    public class BambooDayRankDto : ObjectIdDto
     {
-        public long BBTimes { get; set; }
+        public long BambooValue { get; set; }
 
         public string FansId { get; set; }
 
@@ -20,8 +21,6 @@ namespace HelloGoddess.Core.Dto
         /// </summary>
         public string RoomId { get; set; }
 
-        public IdentityType Identity { get; set; }
-
         /// <summary>
         /// 女神名称
         /// </summary>
@@ -31,23 +30,6 @@ namespace HelloGoddess.Core.Dto
         ///  时间
         /// </summary>
         public long TimeStamp { get; set; }
-    }
 
-    public enum IdentityType
-    {
-        /// <summary>
-        /// 房管
-        /// </summary>
-        RoomManager = 60,
-
-        /// <summary>
-        /// 超管
-        /// </summary>
-        Admin = 120,
-
-        /// <summary>
-        /// 主播
-        /// </summary>
-        Hoster = 90
     }
 }

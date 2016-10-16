@@ -15,6 +15,8 @@ namespace HelloGoddess.Core.Domain.Entity
 
         public string FansName { get; set; }
 
+        public Identity Identity { get; set; }
+
         /// <summary>
         /// RoomId
         /// </summary>
@@ -29,5 +31,26 @@ namespace HelloGoddess.Core.Domain.Entity
         ///  时间
         /// </summary>
         public long TimeStamp { get; set; }
+
+        public long LastTimeStamp { get; internal set; }
+    }
+
+
+    public enum Identity
+    {
+        /// <summary>
+        /// 房管
+        /// </summary>
+        RoomManager = 60,
+
+        /// <summary>
+        /// 超管
+        /// </summary>
+        Admin = 120,
+
+        /// <summary>
+        /// 主播
+        /// </summary>
+        Hoster = 90
     }
 }
