@@ -40,6 +40,7 @@ namespace HelloGoddess.Crawlar.Core.NomalProcesser
                                 };
 
                  bbkingDayRankDto.BBTimes += 1;
+                 bbkingDayRankDto.Content = nomal.content;
                  bbkingApplicationService.AddOrUpdate(bbkingDayRankDto);
              }, null);
         }

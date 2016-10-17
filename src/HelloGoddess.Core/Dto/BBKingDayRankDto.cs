@@ -1,5 +1,4 @@
 ﻿
-using HelloGoddess.Infrastructure.Domain.Entities;
 using MongoDB.Bson;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +20,7 @@ namespace HelloGoddess.Core.Dto
         public string RoomId { get; set; }
 
         public IdentityType Identity { get; set; }
+        public string Content { get; set; }
 
         /// <summary>
         /// 女神名称

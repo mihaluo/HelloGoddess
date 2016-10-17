@@ -289,11 +289,11 @@ namespace HelloGoddess.Crawlar.Core
             var giftprocessers = ObjectCreator.Create<IGiftProcesser>();
             foreach (var giftProcesser in giftprocessers)
             {
-                Task.Factory.StartNew(() =>
+                //Task.Factory.StartNew(() =>
                 {
                     giftProcesser.Process(gift);
                 }
-                );
+                //);
             }
         }
     }

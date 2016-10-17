@@ -27,6 +27,8 @@ namespace HelloGoddess.Core.Domain.Entity
         /// </summary>
         public string GoddessName { get; set; }
 
+        public string Content { get; set; }
+
         /// <summary>
         ///  时间
         /// </summary>
