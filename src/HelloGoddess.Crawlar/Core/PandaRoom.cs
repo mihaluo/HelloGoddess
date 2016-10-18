@@ -172,12 +172,14 @@ namespace HelloGoddess.Crawlar.Core
                     {
                         try
                         {
-                            int len = totalLength - recvMsg.Length + 1;
-                            len = totalLength == 272 ? len - 17 : len;
+                            int len = totalLength - recvMsg.Length + 1 - 17;
                             var receiveWithBuffer = socket.ReceiveWithBuffer(len);
                             var joinRecv = recvMsg.JoinBytes(receiveWithBuffer);
                             var processMsgResult = ProcessMsg(joinRecv);
-                            Console.WriteLine("Result:{0},{1}", processMsgResult, Encoding.UTF8.GetString(joinRecv));
+                            if (!processMsgResult)
+                            {
+                                Console.WriteLine("Result:{0},{1}", processMsgResult, Encoding.UTF8.GetString(joinRecv));
+                            }
                             break;
                         }
                         catch (Exception ex)
@@ -195,14 +197,17 @@ namespace HelloGoddess.Crawlar.Core
         public static bool ProcessMsg(byte[] msgBytes)
         {
             var msg = Encoding.UTF8.GetString(msgBytes);
+            var pandaMessage = msg.ToObj<PandaMessage>();
+            if (pandaMessage == null)
+            {
+                return false;
+            }
+            if (pandaMessage.type == PandaMessageType.Bamboo)
+            {
+                return true;
+            }
             try
             {
-                var pandaMessage = msg.ToObj<PandaMessage>();
-                if (pandaMessage.type == PandaMessageType.Bamboo)
-                {
-                    return true;
-                }
-
                 int indexStart = msg.IndexOf('{', 1);
                 var json = msg.Substring(indexStart, msg.Length - 1 - indexStart);
                 switch (pandaMessage.type)
@@ -232,7 +237,6 @@ namespace HelloGoddess.Crawlar.Core
             {
                 Console.WriteLine(msg);
                 Console.WriteLine(exception);
-                return false;
             }
             return true;
         }
@@ -242,11 +246,11 @@ namespace HelloGoddess.Crawlar.Core
             var nomalProcessers = ObjectCreator.Create<INomalProcesser>();
             foreach (var nomalProcesser in nomalProcessers)
             {
-                Task.Factory.StartNew(() =>
+                //Task.Factory.StartNew(() =>
                 {
                     nomalProcesser.Process(nomal);
                 }
-                );
+                //);
             }
             //Console.WriteLine($"{nomal.from.nickName}：{nomal.content}");
         }
@@ -285,7 +289,7 @@ namespace HelloGoddess.Crawlar.Core
             var price = gift.content.price * gift.content.count;
             string roomId = Dict.GoddessNameDict.ContainsKey(gift.to.toroom) ? gift.to.toroom : Dict.MainRoomGoddessRoomIdMap[gift.content.name];
             string goddessName = Dict.GoddessNameDict[roomId];
-            Console.WriteLine($"{gift.from.nickName}送给主播{goddessName}：{gift.content.name} {price}，连击：{gift.content.combo}");
+            //Console.WriteLine($"{gift.from.nickName}送给主播{goddessName}：{gift.content.name} {price}，连击：{gift.content.combo}");
             var giftprocessers = ObjectCreator.Create<IGiftProcesser>();
             foreach (var giftProcesser in giftprocessers)
             {
