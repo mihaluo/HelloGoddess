@@ -16,7 +16,7 @@ namespace HelloGoddess.Common.Redis
             {
                 if (_connectionMultiplexers == null)
                 {
-                    var redisConnectionString = $"{IpHelper.GetIp("redis")}:6379,connectTimeout=500,SyncTimeout=5000";
+                    var redisConnectionString = $"{IpHelper.GetIp("redis")}:6379,connectTimeout=5000,SyncTimeout=5000";
                     _connectionMultiplexers = new List<ConnectionMultiplexer> { ConnectionMultiplexer.Connect(redisConnectionString) };
                 }
                 return _connectionMultiplexers;
