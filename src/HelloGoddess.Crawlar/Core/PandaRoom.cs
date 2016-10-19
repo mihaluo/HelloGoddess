@@ -178,7 +178,7 @@ namespace HelloGoddess.Crawlar.Core
                             var processMsgResult = ProcessMsg(joinRecv);
                             if (!processMsgResult)
                             {
-                                Console.WriteLine("Result:{0},{1}", processMsgResult, Encoding.UTF8.GetString(joinRecv));
+                                Console.WriteLine("TotalLength:{0},JoinRecvLength:{1},Msg:{2}", totalLength, joinRecv.Length, Encoding.UTF8.GetString(joinRecv));
                             }
                             break;
                         }

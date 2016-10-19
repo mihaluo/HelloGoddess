@@ -9,6 +9,9 @@ namespace HelloGoddess.Common.Util
     {
         public static long GetTodayTimeStampSeconds()
         {
+
+            return DateTimeOffset.Parse(DateTime.Today.ToString()).ToUnixTimeSeconds();
+
             var now = DateTimeOffset.Now;
             var datetimeNowSeconds = now.ToUnixTimeSeconds();
             var seconds = now.Hour * 60 * 60 + now.Minute * 60 + now.Second + now.Millisecond / 1000;
