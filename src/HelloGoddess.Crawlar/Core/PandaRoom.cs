@@ -168,25 +168,20 @@ namespace HelloGoddess.Crawlar.Core
                 var flag = ProcessMsg(recvMsg);
                 if (!flag)
                 {
-                    while (true)
+                    try
                     {
-                        try
+                        int len = totalLength - recvMsg.Length + 1 - 17;
+                        var receiveWithBuffer = socket.ReceiveWithBuffer(len);
+                        var joinRecv = recvMsg.JoinBytes(receiveWithBuffer);
+                        var processMsgResult = ProcessMsg(joinRecv);
+                        if (!processMsgResult)
                         {
-                            int len = totalLength - recvMsg.Length + 1 - 17;
-                            var receiveWithBuffer = socket.ReceiveWithBuffer(len);
-                            var joinRecv = recvMsg.JoinBytes(receiveWithBuffer);
-                            var processMsgResult = ProcessMsg(joinRecv);
-                            if (!processMsgResult)
-                            {
-                                Console.WriteLine("TotalLength:{0},JoinRecvLength:{1},Msg:{2}", totalLength, joinRecv.Length, Encoding.UTF8.GetString(joinRecv));
-                            }
-                            break;
+                            Console.WriteLine("TotalLength:{0},JoinRecvLength:{1},Msg:{2}", totalLength, joinRecv.Length, Encoding.UTF8.GetString(joinRecv));
                         }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex);
-                        }
-                        Thread.Sleep(1000);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
                     }
                     break;
                 }
