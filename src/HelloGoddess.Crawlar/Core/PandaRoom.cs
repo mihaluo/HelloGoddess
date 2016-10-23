@@ -197,7 +197,7 @@ namespace HelloGoddess.Crawlar.Core
             {
                 return false;
             }
-            if (pandaMessage.type == PandaMessageType.Bamboo)
+            if (pandaMessage.type == PandaMessageType.Bamboo || pandaMessage.type == PandaMessageType.Nomal)
             {
                 return true;
             }
