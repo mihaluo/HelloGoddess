@@ -3,6 +3,8 @@ using HelloGoddess.Infrastructure.Domain.Entities;
 using HelloGoddess.Infrastructure.Domain.Repositories;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Linq.Expressions;
+using System;
 
 namespace HelloGoddess.Core.MongoDb.Repositories
 {
@@ -90,5 +92,11 @@ namespace HelloGoddess.Core.MongoDb.Repositories
             var query = MongoDB.Driver.Builders.Query<TEntity>.EQ(e => e.Id, id);
             //Collection.DeleteOne(entity => entity.Id == id);
         }
+
+        public override TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
+        {
+            return Collection.Find(predicate).FirstOrDefault();
+        }
+
     }
 }

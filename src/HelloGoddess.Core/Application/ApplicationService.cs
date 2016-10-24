@@ -10,7 +10,7 @@ namespace HelloGoddess.Core.Application
     {
 
         private static IMongoDatabaseProvider _mongoDatabaseProvider;
-        private static readonly string ConnectionString = $"mongodb://10.0.75.1:27017";
+        private static readonly string ConnectionString = $"mongodb://{IpHelper.GetIp("db")}:27017";
         protected static IMongoDatabaseProvider MongoDatabaseProvider
         {
             get

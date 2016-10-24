@@ -15,5 +15,17 @@ namespace HelloGoddess.Core.Application
                 Total = 222
             });
         }
+
+        public void TestQuery()
+        {
+            IRepository<FansDayRank> repository = new MongoDbRepositoryBase<FansDayRank>(MongoDatabaseProvider);
+            string roomId = "473073";
+            long timeStamp = 1477238400;
+            string fansId = "4853524";
+            repository.Get(new MongoDB.Bson.ObjectId("580dfef9fb57210001919527"));
+            var dayrank = repository.FirstOrDefault(rank => rank.GoddessRoomId == roomId &&
+                                                 rank.TimeStamp == timeStamp &&
+                                                 rank.FansId == fansId);
+        }
     }
 }

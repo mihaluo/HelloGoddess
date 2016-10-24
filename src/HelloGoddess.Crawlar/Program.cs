@@ -10,6 +10,7 @@ using System.Threading;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using StackExchange.Redis;
+using HelloGoddess.Core.Application;
 
 namespace HelloGoddess.Crawlar
 {
@@ -17,6 +18,9 @@ namespace HelloGoddess.Crawlar
     {
         public static void Main(string[] args)
         {
+            //TestApplicationService test = new TestApplicationService();
+            //test.TestQuery();
+            //return;
             Console.WriteLine(TimeStampHelper.GetTodayTimeStampSeconds());
             Console.WriteLine(DateTime.Now.ToString(CultureInfo.InvariantCulture));
             Console.WriteLine(DateTimeOffset.Now.ToString());
@@ -82,7 +86,7 @@ namespace HelloGoddess.Crawlar
             var database = connection.GetDatabase();
             var result = database.StringSet("test", Guid.NewGuid().ToString());
 
-            string connectionString = $"mongodb://10.0.75.1:27017";
+            string connectionString = $"mongodb://{IpHelper.GetIp("db")}:27017";
             MongoClient mongoClient = new MongoClient(connectionString);
             var mongoDatabase = mongoClient.GetDatabase("foo");
             var collection = mongoDatabase.GetCollection<BsonDocument>("bar");
