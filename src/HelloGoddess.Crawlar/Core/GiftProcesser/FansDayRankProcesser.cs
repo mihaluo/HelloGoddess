@@ -29,9 +29,10 @@ namespace HelloGoddess.Crawlar.Core.GiftProcesser
             string fansKey = gift.from.rid + roomId + timeStamp;
 
             bool keyExists = RedisHelper.KeyExists(fansKey);
+            double incrementResult = 0;
             if (keyExists)
             {
-                double incrementResult = RedisHelper.StringIncrement(fansKey, currentGoddessValue);
+                incrementResult = RedisHelper.StringIncrement(fansKey, currentGoddessValue);
                 if (incrementResult < 100)
                 {
                     return;
@@ -60,7 +61,7 @@ namespace HelloGoddess.Crawlar.Core.GiftProcesser
 
                    string preFansKey = preFansDayRankDto.FansId + preFansDayRankDto.GoddessRoomId + preFansDayRankDto.TimeStamp;
 
-                   if (preFansKey == fansKey) return;
+                   if (preFansKey == fansKey && incrementResult < 100) return;
 
                    var preGoddessValue = (double)RedisHelper.StringGet(preFansKey);
 
