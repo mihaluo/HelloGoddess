@@ -7,7 +7,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using HelloGoddess.Common.Redis;
 using HelloGoddess.Core.Application;
+using HelloGoddess.Core.Domain.Entity;
 using MongoDB.Bson.Serialization;
 using Newtonsoft.Json;
 
@@ -45,6 +47,24 @@ namespace HelloGoddess
 
         public static void Main(string[] args)
         {
+            const string incrementkey = "incrementKey";
+            RedisHelper.Remove(incrementkey);
+            for (int i = 0; i < 100; i++)
+            {
+                var value1 = (double)1;
+                RedisHelper.StringIncrement(incrementkey, value1);
+
+            }
+            Console.WriteLine(RedisHelper.StringGet(incrementkey));
+            RedisHelper.Set("test", new Test
+            {
+                Name = "asas",
+                Total = 1000
+            });
+            var test = RedisHelper.Get<Test>("test");
+            RedisHelper.Remove("test");
+            var test1 = RedisHelper.Get<Test>("test");
+
             Console.WriteLine(value);
             var dns = Dns.GetHostAddressesAsync("www.baidu.com").Result;
             foreach (var ipAddress in dns)

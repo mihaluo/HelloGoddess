@@ -265,7 +265,7 @@ namespace HelloGoddess.Crawlar.Core
             var item = roomInfo.data.items[0];
             if (item.status == "2")
             {
-                Console.WriteLine($"---观看人数{audience.content}---");
+                //Console.WriteLine($"---观看人数{audience.content}---");
                 var audienceProcessers = ObjectCreator.Create<IAudienceProcesser>();
                 foreach (var audienceProcesser in audienceProcessers)
                 {
