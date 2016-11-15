@@ -23,54 +23,60 @@ namespace HelloGoddess.Crawlar.Core.GiftProcesser
             string goddessName = Dict.GoddessNameDict[roomId];
             double currentGoddessValue = (double)(gift.content.price * gift.content.count);
 
-         
+
             string dayRankKey = roomId + timeStamp;
+
+
+            //RedisLock.SingleLock(LockPrex + dayRankKey,
+            //() =>
+            //{
             bool keyExists = RedisHelper.KeyExists(dayRankKey);
+            double increment = 0;
             if (keyExists)
             {
-                double increment = RedisHelper.StringIncrement(dayRankKey, currentGoddessValue);
+                increment = RedisHelper.StringIncrement(dayRankKey, currentGoddessValue);
                 if (increment < 100)
                 {
                     return;
                 }
             }
+            var rankDto = new DayRankDto
+            {
+                TimeStamp = timeStamp,
+                GoddessName = goddessName,
+                RoomId = roomId
+            };
+            var preDayRank = RedisHelper.Get<DayRankDto>(PreDayRank);
+            if (preDayRank == null)
+            {
+                RedisHelper.Set(PreDayRank, rankDto);
+                RedisHelper.StringIncrement(dayRankKey, currentGoddessValue);
+                return;
+            }
 
-            RedisLock.SingleLock(LockPrex + dayRankKey,
-             () =>
-             {
-                 var rankDto = new DayRankDto
-                 {
-                     TimeStamp = timeStamp,
-                     GoddessName = goddessName,
-                     RoomId = roomId
-                 };
-                 var preDayRank = RedisHelper.Get<DayRankDto>(PreDayRank);
-                 if (preDayRank == null)
-                 {
-                     RedisHelper.Set(PreDayRank, rankDto);
-                     RedisHelper.StringIncrement(dayRankKey, currentGoddessValue);
-                     return;
-                 }
-               
-                 string preDayRanKey = preDayRank.RoomId + preDayRank.TimeStamp;
-                 if (preDayRanKey == dayRankKey) return;
+            string preDayRanKey = preDayRank.RoomId + preDayRank.TimeStamp;
+            if (preDayRanKey == dayRankKey && increment < 100) return;
 
-                 var dayRankDto = dayRankApplicationService.GetDayRankDtoByRoomIdAndDate
-                                  (preDayRank.RoomId, preDayRank.TimeStamp) ??
-                                  preDayRank;
+            var dayRankDto = dayRankApplicationService.GetDayRankDtoByRoomIdAndDate
+                             (preDayRank.RoomId, preDayRank.TimeStamp) ??
+                             preDayRank;
 
-                 var preGoddessValue = (double)RedisHelper.StringGet(preDayRanKey);
-                 dayRankDto.GoddessValue += (long)preGoddessValue;
-                 dayRankApplicationService.AddOrUpdate(dayRankDto);
+            var preGoddessValue = (double)RedisHelper.StringGet(preDayRanKey);
+            dayRankDto.GoddessValue += (long)preGoddessValue;
+            dayRankApplicationService.AddOrUpdate(dayRankDto);
 
-                 //cleare predata
-                 RedisHelper.Remove(PreDayRank);
-                 RedisHelper.Remove(preDayRanKey);
+            //cleare predata
+            RedisHelper.Remove(PreDayRank);
+            RedisHelper.Remove(preDayRanKey);
+            if (preDayRanKey != dayRankKey)
+            {
+                //add new predata
+                RedisHelper.Set(PreDayRank, rankDto);
+                RedisHelper.StringIncrement(dayRankKey, currentGoddessValue);
 
-                 //add new predata
-                 RedisHelper.Set(PreDayRank, rankDto);
-                 RedisHelper.StringIncrement(dayRankKey, currentGoddessValue);
-             }, null);
+            }
+
+            //}, null);
         }
     }
 }

@@ -28,6 +28,11 @@ namespace HelloGoddess.Crawlar.Core.GiftProcesser
             double currentGoddessValue = (double)(gift.content.price * gift.content.count);
             string fansKey = gift.from.rid + roomId + timeStamp;
 
+
+
+            //RedisLock.SingleLock(LockPrex + fansKey,
+            //   () =>
+            //   {
             bool keyExists = RedisHelper.KeyExists(fansKey);
             double incrementResult = 0;
             if (keyExists)
@@ -38,51 +43,51 @@ namespace HelloGoddess.Crawlar.Core.GiftProcesser
                     return;
                 }
             }
+            var tempFansDayRankDto = new FansDayRankDto
+            {
+                TimeStamp = timeStamp,
+                GoddessRoomId = roomId,
+                GoddessName = goddessName,
+                FansId = gift.from.rid,
+                FansName = gift.from.nickName
+            };
+            var preFansDayRankKey = PreFansDayRank + roomId;
+            var preFansDayRankDto = RedisHelper.Get<FansDayRankDto>(preFansDayRankKey);
+            if (preFansDayRankDto == null)
+            {
+                RedisHelper.Set(preFansDayRankKey, tempFansDayRankDto);
+                RedisHelper.StringIncrement(fansKey, currentGoddessValue);
+                return;
+            }
 
-            RedisLock.SingleLock(LockPrex + fansKey,
-               () =>
-               {
-                   var tempFansDayRankDto = new FansDayRankDto
-                   {
-                       TimeStamp = timeStamp,
-                       GoddessRoomId = roomId,
-                       GoddessName = goddessName,
-                       FansId = gift.from.rid,
-                       FansName = gift.from.nickName
-                   };
-                   var preFansDayRankKey = PreFansDayRank + roomId;
-                   var preFansDayRankDto = RedisHelper.Get<FansDayRankDto>(preFansDayRankKey);
-                   if (preFansDayRankDto == null)
-                   {
-                       RedisHelper.Set(preFansDayRankKey, tempFansDayRankDto);
-                       RedisHelper.StringIncrement(fansKey, currentGoddessValue);
-                       return;
-                   }
+            string preFansKey = preFansDayRankDto.FansId + preFansDayRankDto.GoddessRoomId + preFansDayRankDto.TimeStamp;
 
-                   string preFansKey = preFansDayRankDto.FansId + preFansDayRankDto.GoddessRoomId + preFansDayRankDto.TimeStamp;
+            if (preFansKey == fansKey && incrementResult < 100) return;
 
-                   if (preFansKey == fansKey && incrementResult < 100) return;
+            var preGoddessValue = (double)RedisHelper.StringGet(preFansKey);
 
-                   var preGoddessValue = (double)RedisHelper.StringGet(preFansKey);
+            var fansDayRankDto = FansDayRankApplicationService.GetFansDayRankDtoByRoomId(
+                                 preFansDayRankDto.FansId, preFansDayRankDto.GoddessRoomId, preFansDayRankDto.TimeStamp) ??
+                                 preFansDayRankDto;
 
-                   var fansDayRankDto = FansDayRankApplicationService.GetFansDayRankDtoByRoomId(
-                                        preFansDayRankDto.FansId, preFansDayRankDto.GoddessRoomId, preFansDayRankDto.TimeStamp) ??
-                                        preFansDayRankDto;
+            fansDayRankDto.ContributionGoddessValue += (long)preGoddessValue;
+            FansDayRankApplicationService.AddOrUpdate(fansDayRankDto);
 
-                   fansDayRankDto.ContributionGoddessValue += (long)preGoddessValue;
-                   FansDayRankApplicationService.AddOrUpdate(fansDayRankDto);
+            //cleare predata
+            RedisHelper.Remove(preFansDayRankKey);
+            RedisHelper.Remove(preFansKey);
 
-                   //cleare predata
-                   RedisHelper.Remove(preFansDayRankKey);
-                   RedisHelper.Remove(preFansKey);
+            if (preFansKey != fansKey)
+            {
+                //add new predata
+                RedisHelper.Set(preFansDayRankKey, tempFansDayRankDto);
+                RedisHelper.StringIncrement(fansKey, currentGoddessValue);
 
-                   //add new predata
-                   RedisHelper.Set(preFansDayRankKey, tempFansDayRankDto);
-                   RedisHelper.StringIncrement(fansKey, currentGoddessValue);
+            }
 
 
 
-               }, null);
+            //}, null);
         }
 
     }

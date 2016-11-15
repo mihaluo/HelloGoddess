@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using HelloGoddess.Common.Redis;
+using HelloGoddess.Common.Util;
 using HelloGoddess.Core.Application;
 using HelloGoddess.Core.Domain.Entity;
 using MongoDB.Bson.Serialization;
@@ -47,6 +48,10 @@ namespace HelloGoddess
 
         public static void Main(string[] args)
         {
+            string token = Guid.NewGuid().ToString("n") + Guid.NewGuid().ToString("n").Substring(0,11);
+            int le = token.Length;
+            string tokenapi = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=TOKEN";
+            HttpHelper.DoPost<string>(tokenapi,"" );
             const string incrementkey = "incrementKey";
             RedisHelper.Remove(incrementkey);
             for (int i = 0; i < 100; i++)

@@ -197,7 +197,10 @@ namespace HelloGoddess.Crawlar.Core
             {
                 return false;
             }
-            if (pandaMessage.type == PandaMessageType.Bamboo || pandaMessage.type == PandaMessageType.Nomal)
+            if (!Enum.IsDefined(typeof(PandaMessageType), pandaMessage.type) 
+                //&& pandaMessage.type != PandaMessageType.Nomal
+                )
+            //if (pandaMessage.type == PandaMessageType.Bamboo || pandaMessage.type == PandaMessageType.Nomal)
             {
                 return true;
             }
@@ -213,8 +216,8 @@ namespace HelloGoddess.Crawlar.Core
 
                         break;
                     case PandaMessageType.Bamboo:
-                        //var bamboo = json.ToObj<Bamboo>();
-                        //Console.WriteLine($"{bamboo.from.nickName}送给主播：{bamboo.content}竹子");
+                        var bamboo = json.ToObj<Bamboo>();
+                        ProcessBamboo(bamboo);
                         break;
                     case PandaMessageType.Gift:
 
@@ -236,6 +239,27 @@ namespace HelloGoddess.Crawlar.Core
             return true;
         }
 
+        private static void ProcessBamboo(Bamboo bamboo)
+        {
+            //Console.WriteLine($"{bamboo.from.nickName}送给主播：{bamboo.content}竹子");
+            var bambooProcessers = ObjectCreator.Create<IBambooProcesser>();
+            foreach (var bambooProcesser in bambooProcessers)
+            {
+                //Task.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        bambooProcesser.Process(bamboo);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+                //);
+            }
+        }
+
         private static void ProcessNomal(Nomal nomal)
         {
             var nomalProcessers = ObjectCreator.Create<INomalProcesser>();
@@ -243,7 +267,14 @@ namespace HelloGoddess.Crawlar.Core
             {
                 //Task.Factory.StartNew(() =>
                 {
-                    nomalProcesser.Process(nomal);
+                    try
+                    {
+                        nomalProcesser.Process(nomal);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
                 }
                 //);
             }
@@ -282,6 +313,10 @@ namespace HelloGoddess.Crawlar.Core
         public static void ProcessGift(Gift gift)
         {
             var price = gift.content.price * gift.content.count;
+            if (price <= 0)
+            {
+                return;
+            }
             string roomId = Dict.GoddessNameDict.ContainsKey(gift.to.toroom) ? gift.to.toroom : Dict.MainRoomGoddessRoomIdMap[gift.content.name];
             string goddessName = Dict.GoddessNameDict[roomId];
             //Console.WriteLine($"{gift.from.nickName}送给主播{goddessName}：{gift.content.name} {price}，连击：{gift.content.combo}");
@@ -290,7 +325,14 @@ namespace HelloGoddess.Crawlar.Core
             {
                 //Task.Factory.StartNew(() =>
                 {
-                    giftProcesser.Process(gift);
+                    try
+                    {
+                        giftProcesser.Process(gift);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
                 }
                 //);
             }

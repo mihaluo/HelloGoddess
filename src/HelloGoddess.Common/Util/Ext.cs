@@ -56,7 +56,10 @@ namespace HelloGoddess.Common.Util
             }
             catch (Exception exception)
             {
-
+                //if (json != "{")
+                //{
+                //    Console.WriteLine("toobj error,json :{0},errmsg{1}", json, exception);
+                //}
             }
             return default(T);
         }

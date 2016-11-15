@@ -50,7 +50,7 @@ namespace HelloGoddess.Crawlar
                 {
                     try
                     {
-                        //string roomId = PandaConstant.XXLRoomId;
+                        //string roomId = PandaConstant.ShengDianRoomId;
                         Console.WriteLine("connecting:{0}", roomId);
                         pandaRoom.Connect(roomId);
                         Console.WriteLine("connection done,{0}", roomId);
@@ -86,7 +86,7 @@ namespace HelloGoddess.Crawlar
             var database = connection.GetDatabase();
             var result = database.StringSet("test", Guid.NewGuid().ToString());
 
-            string connectionString = $"mongodb://10.0.75.1:27017";
+            string connectionString = $"mongodb://{IpHelper.GetIp("db")}:27017";
             MongoClient mongoClient = new MongoClient(connectionString);
             var mongoDatabase = mongoClient.GetDatabase("foo");
             var collection = mongoDatabase.GetCollection<BsonDocument>("bar");

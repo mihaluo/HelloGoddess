@@ -67,8 +67,8 @@ namespace HelloGoddess.Crawlar.Core
         public static readonly List<string> GoddessRoomIdList = new List<string>
         {
             //主直播间
-            MainRoom,
-            ShengDianRoomId,
+            //MainRoom,
+            //ShengDianRoomId,
             "353622",
             "471687",
             "472021",

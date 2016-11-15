@@ -10,7 +10,7 @@ namespace HelloGoddess.Common.Redis
         private static readonly IDatabase Database;
         static RedisHelper()
         {
-            var redisConnectionString = $"{IpHelper.GetIp("redis")}:6379,connectTimeout=5000,SyncTimeout=5000";
+            var redisConnectionString = $"{IpHelper.GetIp("redis")}:6379,connectTimeout=5000,SyncTimeout=60000";
             ConnectionMultiplexer = ConnectionMultiplexer.Connect(redisConnectionString);
             Database = ConnectionMultiplexer.GetDatabase();
         }

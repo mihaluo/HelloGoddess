@@ -10,7 +10,7 @@ namespace HelloGoddess.Common.Util
         public static long GetTodayTimeStampSeconds()
         {
 
-            //return DateTimeOffset.Parse(DateTime.Today.ToString()).ToUnixTimeSeconds();
+            return DateTimeOffset.Parse(DateTime.Today.ToString()).ToUnixTimeSeconds();
 
             var now = DateTimeOffset.Now;
             var datetimeNowSeconds = now.ToUnixTimeSeconds();

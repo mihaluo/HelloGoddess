@@ -24,11 +24,11 @@
         public string app { get; set; }
         public string avatar { get; set; }
         public string bamboo { get; set; }
-        public string[] bomb { get; set; }
+        public string bomb { get; set; }
         public string bomb_effect { get; set; }
         public string bomb_stage { get; set; }
         public string bomb_state { get; set; }
-        public long combo { get; set; }
+        public string combo { get; set; }
         public int count { get; set; }
         public string createtime { get; set; }
         public string credit { get; set; }
